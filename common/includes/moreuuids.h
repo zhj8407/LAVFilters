@@ -28,6 +28,56 @@
 #include <MMReg.h>
 #include <wmcodecdsp.h>
 
+#ifndef FORMAT_UVCH264Video
+typedef struct tagKS_H264VIDEOINFO {
+    // from UVC 1.5 H.264 frame descriptor
+    WORD wWidth;
+    WORD wHeight;
+    WORD wSARwidth;
+    WORD wSARheight;
+    WORD wProfile;
+    BYTE bLevelIDC;
+    WORD wConstrainedToolset;
+    DWORD bmSupportedUsages;
+    WORD bmCapabilities;
+    DWORD bmSVCCapabilities;
+    DWORD bmMVCCapabilities;
+    DWORD dwFrameInterval;
+
+    // from UVC 1.5 H.264 format descriptor
+    BYTE bMaxCodecConfigDelay;
+    BYTE bmSupportedSliceModes;
+    BYTE bmSupportedSyncFrameTypes;
+    BYTE bResolutionScaling;
+    BYTE bSimulcastSupport;
+    BYTE bmSupportedRateControlModes;
+    WORD wMaxMBperSecOneResolutionNoScalability;
+    WORD wMaxMBperSecTwoResolutionsNoScalability;
+    WORD wMaxMBperSecThreeResolutionsNoScalability;
+    WORD wMaxMBperSecFourResolutionsNoScalability;
+    WORD wMaxMBperSecOneResolutionTemporalScalability;
+    WORD wMaxMBperSecTwoResolutionsTemporalScalablility;
+    WORD wMaxMBperSecThreeResolutionsTemporalScalability;
+    WORD wMaxMBperSecFourResolutionsTemporalScalability;
+    WORD wMaxMBperSecOneResolutionTemporalQualityScalability;
+    WORD wMaxMBperSecTwoResolutionsTemporalQualityScalability;
+    WORD wMaxMBperSecThreeResolutionsTemporalQualityScalablity;
+    WORD wMaxMBperSecFourResolutionsTemporalQualityScalability;
+    WORD wMaxMBperSecOneResolutionTemporalSpatialScalability;
+    WORD wMaxMBperSecTwoResolutionsTemporalSpatialScalability;
+    WORD wMaxMBperSecThreeResolutionsTemporalSpatialScalablity;
+    WORD wMaxMBperSecFourResolutionsTemporalSpatialScalability;
+    WORD wMaxMBperSecOneResolutionFullScalability;
+    WORD wMaxMBperSecTwoResolutionsFullScalability;
+    WORD wMaxMBperSecThreeResolutionsFullScalability;
+    WORD wMaxMBperSecFourResolutionsFullScalability;
+} KS_H264VIDEOINFO, *PKS_H264VIDEOINFO;
+
+
+DEFINE_GUID(FORMAT_UVCH264Video,
+    0x2017be05, 0x6629, 0x4248, 0xaa, 0xed, 0x7e, 0x1a, 0x47, 0xbc, 0x9b, 0x9c);
+#endif
+
 #define WAVE_FORMAT_DOLBY_AC3 0x2000
 // {00002000-0000-0010-8000-00aa00389b71}
 DEFINE_GUID(MEDIASUBTYPE_WAVE_DOLBY_AC3,

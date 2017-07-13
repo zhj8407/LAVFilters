@@ -550,6 +550,10 @@ void videoFormatTypeHandler(const AM_MEDIA_TYPE &mt, BITMAPINFOHEADER **pBMI, RE
   videoFormatTypeHandler(mt.pbFormat, &mt.formattype, pBMI, prtAvgTime, pDwAspectX, pDwAspectY);
 }
 
+static BITMAPINFOHEADER _bmi;
+
+#define COMPRESSION_CONSTANT    85
+
 void videoFormatTypeHandler(const BYTE *format, const GUID *formattype, BITMAPINFOHEADER **pBMI, REFERENCE_TIME *prtAvgTime, DWORD *pDwAspectX, DWORD *pDwAspectY)
 {
   REFERENCE_TIME rtAvg = 0;
@@ -579,6 +583,21 @@ void videoFormatTypeHandler(const BYTE *format, const GUID *formattype, BITMAPIN
     bmi = &mp2vi->hdr.bmiHeader;
     dwAspectX = mp2vi->hdr.dwPictAspectRatioX;
     dwAspectY = mp2vi->hdr.dwPictAspectRatioY;
+  } else if (*formattype == FORMAT_UVCH264Video) {
+    KS_H264VIDEOINFO* pvi = (KS_H264VIDEOINFO*)format;
+    rtAvg = pvi->dwFrameInterval;
+    /* 
+     * We do not have a BITMAPINFOHEADER in the
+     * KS_H264VIDEOINFO structure. Use the static
+     * global one.
+     */
+    memset(&_bmi, 0, sizeof(_bmi));
+    _bmi.biWidth = pvi->wWidth;
+    _bmi.biHeight = pvi->wHeight;
+    _bmi.biCompression = COMPRESSION_CONSTANT;
+    bmi = &_bmi;
+    dwAspectX = pvi->wWidth;
+    dwAspectY = pvi->wHeight;
   } else {
     ASSERT(FALSE);
   }
